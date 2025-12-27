@@ -741,6 +741,15 @@ export const getThemeById = (id: number, category: string): ThemeConfig => {
       text: 'text-[#1a365d] font-serif',
       subtext: 'text-[#c0392b]',
     },
+    // 89: Chrome OS Aesthetic
+    89: {
+      container: 'bg-[#f1f3f4] text-[#202124] font-sans',
+      card: 'bg-white border border-[#e8eaed] rounded-3xl shadow-sm',
+      button: 'bg-[#1a73e8] text-white rounded-full hover:bg-[#185abc] transition-colors px-6',
+      visual: 'bg-[#f8f9fa] border border-[#dadce0] rounded-2xl text-[#5f6368]',
+      text: 'text-[#202124]',
+      subtext: 'text-[#5f6368]',
+    },
   };
 
   if (allThemes[id]) return allThemes[id];

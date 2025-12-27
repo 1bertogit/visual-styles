@@ -4,9 +4,10 @@ import { getThemeById } from '../themes';
 
 interface PreviewPaneProps {
   style: StyleDefinition;
+  onTagClick?: (tag: string) => void;
 }
 
-const PreviewPane: React.FC<PreviewPaneProps> = ({ style }) => {
+const PreviewPane: React.FC<PreviewPaneProps> = ({ style, onTagClick }) => {
   const theme = getThemeById(style.id, style.category);
 
   return (
@@ -69,6 +70,22 @@ const PreviewPane: React.FC<PreviewPaneProps> = ({ style }) => {
                 <p className={`text-lg leading-relaxed transition-colors duration-300 ${theme.subtext}`}>
                   Visual approximation of the {style.group} style.
                 </p>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {style.tags.map(tag => (
+                    <button
+                      key={tag}
+                      onClick={() => onTagClick?.(tag)}
+                      className={`
+                        px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded border transition-all
+                        ${theme.button.includes('bg-white') 
+                          ? 'border-zinc-200 text-zinc-500 hover:border-accent hover:text-accent' 
+                          : 'border-white/10 text-white/40 hover:border-white/30 hover:text-white/60'}
+                      `}
+                    >
+                      {tag}
+                    </button>
+                  ))}
+                </div>
               </div>
               
               <button className={`px-8 py-3.5 text-sm md:text-base font-semibold transition-all duration-200 ${theme.button}`}>

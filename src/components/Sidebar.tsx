@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { Search, Hash, Sparkles, Star, Filter, Shuffle } from 'lucide-react';
+import React, { useMemo, useState, RefObject, useEffect, useCallback, useRef } from 'react';
+import { Search, Hash, Sparkles, Star, Filter, Shuffle, ArrowLeftRight } from 'lucide-react';
 import { StyleDefinition } from '../types';
 import { useFavorites } from '../hooks/useLocalStorage';
 
@@ -10,6 +10,10 @@ interface SidebarProps {
   searchTerm: string;
   onSearchChange: (term: string) => void;
   isOpen: boolean;
+  searchInputRef?: RefObject<HTMLInputElement | null>;
+  compareSelection?: StyleDefinition | null;
+  onCompareSelect?: (style: StyleDefinition) => void;
+  onCancelCompare?: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ 
@@ -18,38 +22,26 @@ const Sidebar: React.FC<SidebarProps> = ({
   onSelect, 
   searchTerm, 
   onSearchChange,
-  isOpen
+  isOpen,
+  searchInputRef,
+  compareSelection,
+  onCompareSelect,
 }) => {
   const { isFavorite, toggleFavorite, favorites } = useFavorites();
   const [groupFilter, setGroupFilter] = useState<string>('all');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const itemRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
-  // Keyboard navigation handler
-  const handleKeyDown = useCallback((e: KeyboardEvent) => {
-    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
-    
-    // Get current index in filteredStyles
-    const currentIndex = styles.findIndex(s => s.id === selectedId);
-    if (currentIndex === -1) return;
-
-    let nextIndex: number;
-    if (e.key === 'ArrowDown') {
-      nextIndex = currentIndex + 1;
-      if (nextIndex >= styles.length) nextIndex = 0; // Loop to start
-    } else {
-      nextIndex = currentIndex - 1;
-      if (nextIndex < 0) nextIndex = styles.length - 1; // Loop to end
-    }
-
-    e.preventDefault();
-    onSelect(styles[nextIndex]);
-  }, [selectedId, styles, onSelect]);
-
-  // Attach keyboard listener
+  // Auto-scroll to selected item
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleKeyDown]);
+    const selectedElement = itemRefs.current[selectedId];
+    if (selectedElement) {
+      selectedElement.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }
+  }, [selectedId]);
 
   // Get unique groups
   const groups = useMemo(() => {
@@ -64,7 +56,7 @@ const Sidebar: React.FC<SidebarProps> = ({
       const matchesSearch = 
         s.name.toLowerCase().includes(term) || 
         s.group.toLowerCase().includes(term) ||
-        s.tags.some(tag => tag.toLowerCase().includes(term));
+        s.tags.some(tag => tag.toLowerCase().includes(tag.toLowerCase().includes(term) ? term : term)); // Lint fix or just keep original
       
       // Group filter
       const matchesGroup = groupFilter === 'all' || s.group === groupFilter;
@@ -75,6 +67,43 @@ const Sidebar: React.FC<SidebarProps> = ({
       return matchesSearch && matchesGroup && matchesFavorites;
     });
   }, [styles, searchTerm, groupFilter, showFavoritesOnly, favorites]);
+
+  // Keyboard navigation handler
+  const handleKeyDown = useCallback((e: KeyboardEvent) => {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    
+    // Skip if typing in an input (except the search input itself if we want to allow arrows there)
+    const target = e.target as HTMLElement;
+    const isInputFocused = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.tagName === 'SELECT';
+    
+    // We allow arrows in the search input to navigate the list
+    if (isInputFocused && target !== searchInputRef?.current) return;
+
+    // Get current index in filteredStyles
+    const currentIndex = filteredStyles.findIndex(s => s.id === selectedId);
+    if (currentIndex === -1 && filteredStyles.length > 0) {
+      // If nothing selected but we have items, select first one
+      onSelect(filteredStyles[0]);
+      return;
+    }
+    if (filteredStyles.length === 0) return;
+
+    let nextIndex: number;
+    if (e.key === 'ArrowDown') {
+      nextIndex = (currentIndex + 1) % filteredStyles.length;
+    } else {
+      nextIndex = currentIndex === 0 ? filteredStyles.length - 1 : currentIndex - 1;
+    }
+
+    e.preventDefault();
+    onSelect(filteredStyles[nextIndex]);
+  }, [selectedId, filteredStyles, onSelect, searchInputRef]);
+
+  // Attach keyboard listener
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   const groupedStyles = useMemo(() => {
     const grouped: Record<string, StyleDefinition[]> = {};
@@ -122,8 +151,9 @@ const Sidebar: React.FC<SidebarProps> = ({
         <div className="relative group">
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-accent transition-colors" />
           <input
+            ref={searchInputRef}
             type="text"
-            placeholder="Search styles, tags..."
+            placeholder="Search styles, tags... (⌘K)"
             value={searchTerm}
             onChange={(e) => onSearchChange(e.target.value)}
             className="w-full bg-[#18181b] border border-[#3f3f46] text-zinc-200 pl-9 pr-3 py-2 rounded-lg text-xs outline-none focus:border-accent transition-all placeholder:text-zinc-600"
@@ -181,8 +211,14 @@ const Sidebar: React.FC<SidebarProps> = ({
               {groupName}
             </h3>
             <div className="space-y-0.5" role="listbox" aria-label={groupName}>
-              {(groupItems as StyleDefinition[]).map(style => (
-                <div key={style.id} className="flex items-center group">
+              {(groupItems as StyleDefinition[]).map(style => {
+                const isCompareSelected = compareSelection?.id === style.id;
+                return (
+                <div 
+                  key={style.id} 
+                  ref={el => { itemRefs.current[style.id] = el; }}
+                  className={`flex items-center group ${isCompareSelected ? 'bg-accent/10 rounded-md' : ''}`}
+                >
                   {/* Favorite Button */}
                   <button
                     onClick={(e) => {
@@ -198,6 +234,24 @@ const Sidebar: React.FC<SidebarProps> = ({
                   >
                     <Star size={12} fill={isFavorite(style.id) ? 'currentColor' : 'none'} />
                   </button>
+
+                  {/* Compare Button */}
+                  {onCompareSelect && (
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        onCompareSelect(style);
+                      }}
+                      className={`p-1.5 rounded transition-all ${
+                        isCompareSelected
+                          ? 'text-accent'
+                          : 'text-zinc-600 opacity-0 group-hover:opacity-100 hover:text-accent'
+                      }`}
+                      title={isCompareSelected ? 'Selected for compare' : 'Compare this style'}
+                    >
+                      <ArrowLeftRight size={12} />
+                    </button>
+                  )}
 
                   {/* Style Button */}
                   <button
@@ -217,7 +271,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </span>
                   </button>
                 </div>
-              ))}
+              )})}
             </div>
           </div>
         ))}
