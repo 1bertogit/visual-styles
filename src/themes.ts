@@ -1,0 +1,793 @@
+import { ThemeConfig } from './types';
+
+// Temas por ID do estilo - Essential Tech
+const essentialTechThemes: Record<number, ThemeConfig> = {
+  // 1: Clean / Flat 2.0
+  1: {
+    container: 'bg-[#fafafa] text-slate-900 font-sans',
+    card: 'bg-white border border-slate-200 shadow-sm rounded-2xl',
+    button: 'bg-blue-600 text-white rounded-lg hover:bg-blue-700',
+    visual: 'bg-slate-100 border border-slate-200 rounded-xl text-slate-400',
+    text: 'text-slate-900',
+    subtext: 'text-slate-500',
+  },
+  // 2: Bento Grids
+  2: {
+    container: 'bg-slate-50 text-slate-900 font-sans',
+    card: 'bg-white border border-slate-100 shadow-lg rounded-3xl',
+    button: 'bg-slate-900 text-white rounded-xl hover:bg-slate-800',
+    visual: 'bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl text-slate-400 grid grid-cols-2 gap-2 p-4',
+    text: 'text-slate-900',
+    subtext: 'text-slate-600',
+  },
+  // 3: Dark Mode Futurist
+  3: {
+    container: 'bg-[#0a0a0f] text-white font-sans',
+    card: 'bg-[#12121a] border border-purple-500/20 rounded-xl shadow-[0_0_60px_-15px_rgba(168,85,247,0.4)]',
+    button: 'bg-purple-600 text-white rounded-lg shadow-[0_0_30px_rgba(168,85,247,0.5)] hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
+    visual: 'bg-purple-500/10 border border-purple-500/30 rounded-lg text-purple-400',
+    text: 'text-white drop-shadow-[0_0_20px_rgba(168,85,247,0.5)]',
+    subtext: 'text-purple-300/70',
+  },
+  // 4: Glassmorphism
+  4: {
+    container: 'bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 text-white font-sans',
+    card: 'bg-white/10 backdrop-blur-2xl border border-white/30 rounded-3xl shadow-2xl',
+    button: 'bg-white/25 hover:bg-white/35 border border-white/50 text-white rounded-2xl backdrop-blur-md',
+    visual: 'bg-white/5 border border-white/20 rounded-2xl text-white/60 backdrop-blur-sm',
+    text: 'text-white',
+    subtext: 'text-white/80',
+  },
+  // 5: Isometric 3D
+  5: {
+    container: 'bg-white text-slate-900 font-sans',
+    card: 'bg-slate-50 border border-slate-200 rounded-2xl shadow-xl',
+    button: 'bg-indigo-600 text-white rounded-lg hover:bg-indigo-700',
+    visual: 'bg-gradient-to-br from-indigo-100 to-indigo-200 rounded-xl text-indigo-400 border border-indigo-200',
+    text: 'text-slate-900',
+    subtext: 'text-slate-600',
+  },
+  // 6: Abstract 3D Hero
+  6: {
+    container: 'bg-slate-50 text-slate-900 font-sans relative',
+    card: 'bg-white/80 backdrop-blur-sm border border-slate-200 rounded-3xl shadow-xl relative z-10',
+    button: 'bg-gradient-to-r from-pink-500 to-orange-500 text-white rounded-xl hover:opacity-90',
+    visual: 'bg-gradient-to-br from-pink-400 via-purple-400 to-indigo-400 rounded-full text-white/80 shadow-[0_20px_60px_-15px_rgba(219,39,119,0.4)]',
+    text: 'text-slate-900',
+    subtext: 'text-slate-600',
+  },
+  // 7: Neobrutalism
+  7: {
+    container: 'bg-[#FFE135] text-black font-bold font-mono',
+    card: 'bg-white border-4 border-black shadow-[8px_8px_0px_0px_#000] rounded-none',
+    button: 'bg-[#FF6B6B] text-white border-4 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-1 hover:translate-y-1 hover:shadow-[2px_2px_0px_0px_#000] transition-all rounded-none',
+    visual: 'bg-[#4ECDC4] border-4 border-black text-black rounded-none',
+    text: 'text-black uppercase',
+    subtext: 'text-black/80',
+  },
+  // 8: Aurora UI
+  8: {
+    container: 'bg-[#0f0f23] text-white font-sans relative overflow-hidden',
+    card: 'bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl',
+    button: 'bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-xl backdrop-blur-sm',
+    visual: 'bg-gradient-to-br from-emerald-400/20 via-cyan-400/20 to-purple-400/20 rounded-2xl text-white/40 border border-white/10',
+    text: 'text-white',
+    subtext: 'text-cyan-200/60',
+  },
+  // 11: Technical Wireframe
+  11: {
+    container: 'bg-[#0d1117] text-cyan-400 font-mono relative',
+    card: 'bg-transparent border border-cyan-500/50 rounded-none',
+    button: 'bg-transparent border border-cyan-500 text-cyan-400 rounded-none hover:bg-cyan-500/10 uppercase text-xs tracking-widest',
+    visual: 'bg-transparent border border-dashed border-cyan-500/50 text-cyan-500/60 rounded-none',
+    text: 'text-cyan-300 font-mono',
+    subtext: 'text-cyan-500/70',
+  },
+};
+
+// Temas Tactile & Corp
+const tactileCorpThemes: Record<number, ThemeConfig> = {
+  // 9: Neumorphism
+  9: {
+    container: 'bg-[#e0e5ec] text-[#44476a] font-sans',
+    card: 'bg-[#e0e5ec] rounded-3xl shadow-[20px_20px_60px_#bebebe,-20px_-20px_60px_#ffffff] border-none',
+    button: 'bg-[#e0e5ec] text-[#6d5dfc] rounded-2xl shadow-[8px_8px_16px_#bebebe,-8px_-8px_16px_#ffffff] hover:shadow-[inset_4px_4px_8px_#bebebe,inset_-4px_-4px_8px_#ffffff] font-semibold transition-all',
+    visual: 'bg-[#e0e5ec] rounded-2xl shadow-[inset_8px_8px_16px_#bebebe,inset_-8px_-8px_16px_#ffffff] text-[#9baacf]',
+    text: 'text-[#44476a]',
+    subtext: 'text-[#6d5dfc]',
+  },
+  // 10: Corporate Memphis
+  10: {
+    container: 'bg-[#fff5f5] text-slate-900 font-sans',
+    card: 'bg-white rounded-2xl border-none shadow-none',
+    button: 'bg-[#ff6b6b] text-white rounded-full hover:bg-[#ff5252] shadow-none',
+    visual: 'bg-[#ffe066] rounded-2xl text-[#cc5200] border-none shadow-none',
+    text: 'text-slate-900',
+    subtext: 'text-slate-600',
+  },
+  // 12: Claymorphism
+  12: {
+    container: 'bg-[#f0f4f8] text-[#4a5568] font-sans',
+    card: 'bg-[#f0f4f8] shadow-[inset_-8px_-8px_16px_#fff,inset_8px_8px_16px_rgba(174,174,192,0.2),20px_20px_40px_rgba(174,174,192,0.3)] rounded-[50px] border-none',
+    button: 'bg-[#667eea] text-white rounded-full shadow-[6px_6px_12px_rgba(102,126,234,0.4)] hover:shadow-[8px_8px_16px_rgba(102,126,234,0.5)] font-bold',
+    visual: 'bg-[#ebf0f5] shadow-[inset_8px_8px_16px_rgba(163,177,198,0.4),inset_-8px_-8px_16px_#fff] rounded-[40px] text-[#a0aec0]',
+    text: 'text-[#2d3748]',
+    subtext: 'text-[#718096]',
+  },
+  // 13: Hand-Drawn / Doodle
+  13: {
+    container: 'bg-[#fffef5] text-slate-800 font-serif',
+    card: 'bg-white border-2 border-slate-800 rounded-none shadow-[4px_4px_0px_0px_#1e293b,-2px_-2px_0px_0px_#1e293b]',
+    button: 'bg-[#fde68a] text-slate-900 border-2 border-slate-800 rounded-none hover:bg-[#fcd34d] shadow-[2px_2px_0px_0px_#1e293b]',
+    visual: 'bg-[#e0f2fe] border-2 border-dashed border-slate-600 rounded-none text-slate-500',
+    text: 'text-slate-800',
+    subtext: 'text-slate-600',
+  },
+  // 32: Micro-Animations
+  32: {
+    container: 'bg-white text-slate-900 font-sans',
+    card: 'bg-white border border-slate-200 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300',
+    button: 'bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 hover:scale-105 transition-all duration-200 shadow-md hover:shadow-lg',
+    visual: 'bg-slate-100 rounded-xl text-slate-400 border border-slate-200 hover:border-indigo-300 transition-colors duration-200',
+    text: 'text-slate-900',
+    subtext: 'text-slate-500',
+  },
+  // 37: Hyper-Real 3D
+  37: {
+    container: 'bg-[#f8fafc] text-slate-900 font-sans',
+    card: 'bg-white rounded-3xl shadow-2xl border-none',
+    button: 'bg-slate-900 text-white rounded-xl hover:bg-slate-800',
+    visual: 'bg-gradient-to-br from-slate-200 to-slate-300 rounded-2xl text-slate-500 shadow-inner',
+    text: 'text-slate-900',
+    subtext: 'text-slate-500',
+  },
+};
+
+// Função para obter tema por ID
+export const getThemeById = (id: number, category: string): ThemeConfig => {
+  const allThemes: Record<number, ThemeConfig> = {
+    ...essentialTechThemes,
+    ...tactileCorpThemes,
+    // Artistic & Retro
+    15: { // Scrapbook / Collage
+      container: 'bg-[#f5e6d3] text-slate-900 font-serif',
+      card: 'bg-white border-3 border-black shadow-[6px_6px_0_#000] rotate-1',
+      button: 'bg-[#ff6b6b] text-white border-2 border-black -rotate-2 hover:rotate-0 transition-transform',
+      visual: 'bg-[#ffe066] border-2 border-black rotate-2 text-black',
+      text: 'text-slate-900 -rotate-1',
+      subtext: 'text-slate-700',
+    },
+    16: { // Maximalism
+      container: 'bg-gradient-to-br from-fuchsia-500 via-red-500 to-orange-500 text-white font-bold',
+      card: 'bg-black/20 backdrop-blur-sm border-2 border-white/30 rounded-none',
+      button: 'bg-yellow-400 text-black border-2 border-black hover:bg-yellow-300',
+      visual: 'bg-gradient-to-br from-cyan-400 to-blue-500 border-2 border-white text-white',
+      text: 'text-white drop-shadow-lg',
+      subtext: 'text-white/90',
+    },
+    18: { // Liquid Metal
+      container: 'bg-[#0a0a0a] text-white font-sans',
+      card: 'bg-[#1a1a1a] border border-zinc-800 rounded-xl',
+      button: 'bg-gradient-to-r from-zinc-400 via-white to-zinc-400 text-black rounded-lg font-semibold',
+      visual: 'bg-gradient-to-br from-zinc-600 via-zinc-300 to-zinc-600 rounded-xl text-zinc-800',
+      text: 'text-transparent bg-clip-text bg-gradient-to-r from-zinc-400 via-white to-zinc-400',
+      subtext: 'text-zinc-500',
+    },
+    20: { // Risograph
+      container: 'bg-[#f5f0e6] text-slate-900 font-mono',
+      card: 'bg-white border border-slate-300 rounded-none',
+      button: 'bg-[#ff5e5b] text-white rounded-none shadow-[3px_3px_0_#00cecb]',
+      visual: 'bg-[#ffed66] border border-slate-800 rounded-none text-slate-900',
+      text: 'text-slate-900 [text-shadow:2px_2px_0_#ff5e5b]',
+      subtext: 'text-slate-700',
+    },
+    21: { // Xerography / Punk Zine
+      container: 'bg-[#1a1a1a] text-white font-mono',
+      card: 'bg-white text-black border-none rotate-1',
+      button: 'bg-black text-white border-2 border-white -rotate-1',
+      visual: 'bg-[#ff0] text-black border-2 border-black rotate-2',
+      text: 'text-black uppercase tracking-tighter',
+      subtext: 'text-zinc-700',
+    },
+    39: { // Y2K / Acid Graphics
+      container: 'bg-[#0f0f1a] text-white font-sans',
+      card: 'bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-cyan-500/30 rounded-2xl',
+      button: 'bg-gradient-to-r from-cyan-400 to-pink-500 text-white rounded-full font-bold shadow-[0_0_20px_rgba(6,182,212,0.5)]',
+      visual: 'bg-gradient-to-br from-cyan-500 via-purple-500 to-pink-500 rounded-xl text-white',
+      text: 'text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-pink-500',
+      subtext: 'text-purple-300',
+    },
+    40: { // Vaporwave
+      container: 'bg-gradient-to-b from-[#ff71ce] via-[#01cdfe] to-[#05ffa1] text-white font-sans',
+      card: 'bg-black/30 backdrop-blur-sm border border-white/20 rounded-none',
+      button: 'bg-[#b967ff] text-white border-2 border-[#fffb96] rounded-none',
+      visual: 'bg-black/40 border border-white/30 rounded-none text-white/80',
+      text: 'text-white [text-shadow:2px_2px_0_#ff71ce,-2px_-2px_0_#01cdfe]',
+      subtext: 'text-white/80',
+    },
+    // Classic & Typography
+    14: { // Bold Minimalism
+      container: 'bg-white text-black font-sans',
+      card: 'bg-white border-none shadow-none rounded-none',
+      button: 'bg-black text-white rounded-none hover:bg-zinc-800',
+      visual: 'bg-zinc-100 rounded-none text-zinc-400 border-none',
+      text: 'text-black text-6xl md:text-7xl font-black tracking-tighter',
+      subtext: 'text-zinc-500 font-light',
+    },
+    17: { // Kinetic Typography
+      container: 'bg-black text-white font-sans',
+      card: 'bg-transparent border-none rounded-none',
+      button: 'bg-white text-black rounded-none hover:bg-zinc-200',
+      visual: 'bg-zinc-900 border border-zinc-800 rounded-none text-zinc-600',
+      text: 'text-white text-5xl md:text-6xl font-black uppercase animate-pulse',
+      subtext: 'text-zinc-400',
+    },
+    22: { // Editorial Luxury
+      container: 'bg-[#faf9f6] text-[#1a1a1a] font-serif',
+      card: 'bg-white border-b border-zinc-200 rounded-none shadow-none',
+      button: 'bg-transparent text-[#1a1a1a] border border-[#1a1a1a] rounded-none hover:bg-[#1a1a1a] hover:text-white uppercase tracking-[0.3em] text-xs',
+      visual: 'bg-zinc-100 border-none rounded-none text-zinc-400',
+      text: 'text-[#1a1a1a] font-serif tracking-tight',
+      subtext: 'text-zinc-600 tracking-wide',
+    },
+    24: { // Monochrome Sophistication
+      container: 'bg-[#0a1628] text-[#e2e8f0] font-sans',
+      card: 'bg-[#0f2744] border border-[#1e3a5f] rounded-lg',
+      button: 'bg-[#1e3a5f] text-[#e2e8f0] rounded-lg hover:bg-[#2d4a6f] border border-[#3d5a7f]',
+      visual: 'bg-[#0a1628] border border-[#1e3a5f] rounded-lg text-[#64748b]',
+      text: 'text-[#e2e8f0]',
+      subtext: 'text-[#94a3b8]',
+    },
+    26: { // Japanese Minimalism
+      container: 'bg-[#fefefe] text-[#1a1a1a] font-sans',
+      card: 'bg-white border-none shadow-sm rounded-sm',
+      button: 'bg-[#1a1a1a] text-white rounded-none text-xs tracking-widest',
+      visual: 'bg-[#f5f5f5] border-none rounded-sm text-zinc-400',
+      text: 'text-[#1a1a1a] font-light tracking-wide',
+      subtext: 'text-zinc-500 text-sm',
+    },
+    27: { // Dark Academia
+      container: 'bg-[#1a1612] text-[#d4c5b0] font-serif',
+      card: 'bg-[#2a2318] border border-[#3d3428] rounded-sm shadow-xl',
+      button: 'bg-[#8b7355] text-[#1a1612] rounded-sm hover:bg-[#a08060] font-semibold',
+      visual: 'bg-[#1a1612] border border-[#3d3428] rounded-sm text-[#6b5d4d]',
+      text: 'text-[#d4c5b0] font-serif',
+      subtext: 'text-[#8b7355]',
+    },
+    45: { // ASCII Art Modern
+      container: 'bg-black text-green-400 font-mono',
+      card: 'bg-black border border-green-500/50 rounded-none',
+      button: 'bg-green-500 text-black rounded-none font-bold uppercase',
+      visual: 'bg-black border border-dashed border-green-500/50 rounded-none text-green-500/70',
+      text: 'text-green-400 font-mono',
+      subtext: 'text-green-600',
+    },
+    69: { // Swiss Style International
+      container: 'bg-white text-black font-sans',
+      card: 'bg-white border-none rounded-none',
+      button: 'bg-[#ff0000] text-white rounded-none uppercase font-bold tracking-wider',
+      visual: 'bg-[#0000ff] rounded-none text-white',
+      text: 'text-black font-bold uppercase',
+      subtext: 'text-zinc-600',
+    },
+    // Data & Science
+    29: { // Data Visualization
+      container: 'bg-[#f8fafc] text-slate-900 font-sans',
+      card: 'bg-white border border-slate-200 rounded-xl shadow-sm',
+      button: 'bg-blue-600 text-white rounded-lg',
+      visual: 'bg-slate-50 border border-slate-200 rounded-lg text-slate-400 grid grid-cols-2 gap-2',
+      text: 'text-slate-900 font-semibold',
+      subtext: 'text-slate-500',
+    },
+    33: { // Terminal Aesthetic
+      container: 'bg-black text-green-400 font-mono',
+      card: 'bg-[#0a0a0a] border border-green-900 rounded-none',
+      button: 'bg-green-500 text-black rounded-none uppercase tracking-wider',
+      visual: 'bg-black border border-green-500/30 rounded-none text-green-500',
+      text: 'text-green-400 font-mono',
+      subtext: 'text-green-600',
+    },
+    35: { // Quantum Aesthetic
+      container: 'bg-[#030318] text-white font-sans',
+      card: 'bg-[#0a0a2e] border border-indigo-500/20 rounded-xl',
+      button: 'bg-transparent border border-indigo-400 text-indigo-300 rounded-full',
+      visual: 'bg-transparent border border-dashed border-indigo-500/30 rounded-full text-indigo-400/50',
+      text: 'text-white',
+      subtext: 'text-indigo-300/70',
+    },
+    58: { // Thermal Imaging
+      container: 'bg-black text-white font-mono',
+      card: 'bg-[#0a0a0a] border border-zinc-800 rounded-lg',
+      button: 'bg-gradient-to-r from-blue-500 via-yellow-500 to-red-500 text-white rounded-lg',
+      visual: 'bg-gradient-to-br from-blue-600 via-green-500 via-yellow-500 to-red-600 rounded-lg text-white/80',
+      text: 'text-white',
+      subtext: 'text-zinc-400',
+    },
+    60: { // Military HUD
+      container: 'bg-[#0a0f0a] text-[#00ff88] font-mono',
+      card: 'bg-[#0a0f0a]/80 border border-[#00ff88]/30 rounded-none [clip-path:polygon(0_10px,10px_0,100%_0,100%_calc(100%-10px),calc(100%-10px)_100%,0_100%)]',
+      button: 'bg-transparent border border-[#00ff88] text-[#00ff88] rounded-none uppercase tracking-widest text-xs',
+      visual: 'bg-[#00ff88]/5 border border-[#00ff88]/20 rounded-none text-[#00ff88]/60',
+      text: 'text-[#00ff88] uppercase tracking-wider',
+      subtext: 'text-[#00ff88]/60',
+    },
+    63: { // Sci-Fi Hologram
+      container: 'bg-[#030308] text-cyan-300 font-sans',
+      card: 'bg-cyan-500/5 border border-cyan-500/30 rounded-xl shadow-[0_0_40px_-10px_rgba(6,182,212,0.3)]',
+      button: 'bg-cyan-500/20 border border-cyan-400 text-cyan-300 rounded-lg shadow-[0_0_20px_rgba(6,182,212,0.3)]',
+      visual: 'bg-cyan-500/10 border border-cyan-500/20 rounded-lg text-cyan-400/60',
+      text: 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.5)]',
+      subtext: 'text-cyan-500/70',
+    },
+    // Spatial & Thematic
+    30: { // Retro-Futurism
+      container: 'bg-[#0a0a1a] text-white font-sans',
+      card: 'bg-[#12122a] border border-pink-500/20 rounded-xl',
+      button: 'bg-gradient-to-r from-pink-500 to-cyan-500 text-white rounded-lg shadow-[0_0_20px_rgba(236,72,153,0.4)]',
+      visual: 'bg-[#0a0a1a] border border-pink-500/30 rounded-lg text-pink-400/60',
+      text: 'text-white',
+      subtext: 'text-pink-300/70',
+    },
+    31: { // Morphing Interfaces
+      container: 'bg-[#f0f4f8] text-[#4a5568] font-sans',
+      card: 'bg-gradient-to-br from-purple-200 to-pink-200 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] shadow-xl animate-pulse',
+      button: 'bg-purple-500 text-white rounded-full',
+      visual: 'bg-gradient-to-br from-cyan-200 to-purple-200 rounded-[40%_60%_70%_30%/40%_70%_30%_60%] text-purple-400',
+      text: 'text-[#4a5568]',
+      subtext: 'text-purple-600',
+    },
+    34: { // Solarpunk
+      container: 'bg-[#f0fdf4] text-emerald-900 font-sans',
+      card: 'bg-white border border-emerald-200 rounded-2xl shadow-[0_10px_40px_-10px_rgba(16,185,129,0.2)]',
+      button: 'bg-gradient-to-r from-emerald-500 to-amber-500 text-white rounded-xl',
+      visual: 'bg-gradient-to-br from-emerald-100 to-amber-100 rounded-xl text-emerald-400 border border-emerald-200',
+      text: 'text-emerald-900',
+      subtext: 'text-emerald-600',
+    },
+    36: { // Metaverse Ready
+      container: 'bg-[#050510] text-white font-sans',
+      card: 'bg-[#0a0a1f] border border-cyan-500/30 rounded-xl shadow-[0_0_30px_-5px_rgba(6,182,212,0.3),0_0_30px_-5px_rgba(236,72,153,0.3)]',
+      button: 'bg-gradient-to-r from-cyan-500 to-fuchsia-500 text-white rounded-lg',
+      visual: 'bg-gradient-to-br from-cyan-500/10 to-fuchsia-500/10 border border-white/10 rounded-lg text-cyan-400/60',
+      text: 'text-white',
+      subtext: 'text-cyan-300/70',
+    },
+    42: { // Frutiger Aero
+      container: 'bg-gradient-to-br from-sky-100 to-emerald-100 text-slate-900 font-sans',
+      card: 'bg-white/80 backdrop-blur-sm border border-white rounded-2xl shadow-xl',
+      button: 'bg-gradient-to-b from-sky-400 to-sky-500 text-white rounded-lg shadow-[inset_0_1px_0_rgba(255,255,255,0.4)]',
+      visual: 'bg-gradient-to-br from-emerald-200 to-sky-200 rounded-xl text-sky-600 border border-white',
+      text: 'text-slate-900',
+      subtext: 'text-slate-600',
+    },
+    43: { // Win95 / OS Style
+      container: 'bg-[#008080] text-white font-sans',
+      card: 'bg-[#c0c0c0] border-t-2 border-l-2 border-[#dfdfdf] border-b-2 border-r-2 border-[#808080] rounded-none shadow-md',
+      button: 'bg-[#c0c0c0] text-black border-t-2 border-l-2 border-[#dfdfdf] border-b-2 border-r-2 border-[#808080] rounded-none active:border-t-[#808080] active:border-l-[#808080]',
+      visual: 'bg-[#000080] border-2 border-[#808080] rounded-none text-white font-bold',
+      text: 'text-black',
+      subtext: 'text-[#808080]',
+    },
+    44: { // Teletext / VHS
+      container: 'bg-[#000033] text-white font-mono',
+      card: 'bg-[#000022] border border-[#333366] rounded-none',
+      button: 'bg-[#ffff00] text-black rounded-none font-bold',
+      visual: 'bg-[#000044] border border-[#666699] rounded-none text-[#00ffff]',
+      text: 'text-[#ffffff] [text-shadow:2px_0_0_#ff0000,-2px_0_0_#00ffff]',
+      subtext: 'text-[#ffff00]',
+    },
+    56: { // Gorpcore Tech
+      container: 'bg-[#1c1917] text-stone-200 font-sans',
+      card: 'bg-[#292524] border border-stone-700 rounded-lg',
+      button: 'bg-lime-500 text-black rounded-lg font-bold',
+      visual: 'bg-[#1c1917] border border-stone-600 rounded-lg text-stone-500',
+      text: 'text-stone-200',
+      subtext: 'text-lime-400',
+    },
+    57: { // Mysticism / Astrology
+      container: 'bg-[#0a0a1a] text-amber-200 font-serif',
+      card: 'bg-[#0f0f2a] border border-amber-500/30 rounded-xl',
+      button: 'bg-transparent border border-amber-400 text-amber-400 rounded-full',
+      visual: 'bg-[#0a0a1a] border border-amber-500/20 rounded-full text-amber-400/40',
+      text: 'text-amber-200',
+      subtext: 'text-amber-500/70',
+    },
+    61: { // Competitive Neon
+      container: 'bg-[#0a0a0a] text-white font-sans',
+      card: 'bg-[#1a1a1a] border-none rounded-none [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))]',
+      button: 'bg-gradient-to-r from-red-500 to-blue-500 text-white rounded-none font-bold',
+      visual: 'bg-gradient-to-br from-red-500/20 to-blue-500/20 border-none rounded-none text-white/60',
+      text: 'text-white',
+      subtext: 'text-zinc-400',
+    },
+    62: { // Horror Vintage
+      container: 'bg-[#1a1815] text-[#c4b89a] font-serif',
+      card: 'bg-[#252219] border border-[#3d372a] rounded-sm',
+      button: 'bg-[#8b0000] text-[#c4b89a] rounded-sm',
+      visual: 'bg-[#1a1815] border border-[#3d372a] rounded-sm text-[#6b5d4d] sepia',
+      text: 'text-[#c4b89a] font-serif',
+      subtext: 'text-[#8b7355]',
+    },
+    64: { // Automotive Luxury
+      container: 'bg-[#0a0a0a] text-zinc-200 font-sans',
+      card: 'bg-[#141414] border border-zinc-800 rounded-xl',
+      button: 'bg-zinc-800 text-white rounded-full border border-zinc-700',
+      visual: 'bg-[#0a0a0a] border border-zinc-700 rounded-full text-zinc-600',
+      text: 'text-zinc-200 tracking-wide',
+      subtext: 'text-zinc-500',
+    },
+    65: { // Magical Sparkle
+      container: 'bg-[#1a0a2e] text-white font-sans',
+      card: 'bg-[#2a1848] border border-purple-500/30 rounded-2xl shadow-[0_0_40px_-10px_rgba(168,85,247,0.4)]',
+      button: 'bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl shadow-[0_0_20px_rgba(168,85,247,0.5)]',
+      visual: 'bg-purple-500/10 border border-purple-400/20 rounded-xl text-purple-300/60',
+      text: 'text-white drop-shadow-[0_0_10px_rgba(168,85,247,0.5)]',
+      subtext: 'text-purple-300/70',
+    },
+    70: { // Spatial Design
+      container: 'bg-[#f5f5f7] text-[#1d1d1f] font-sans',
+      card: 'bg-white rounded-3xl shadow-[0_2px_40px_-12px_rgba(0,0,0,0.1),0_0_0_1px_rgba(0,0,0,0.05)]',
+      button: 'bg-[#0071e3] text-white rounded-full hover:bg-[#0077ed]',
+      visual: 'bg-[#f5f5f7] rounded-2xl text-[#86868b] shadow-inner',
+      text: 'text-[#1d1d1f]',
+      subtext: 'text-[#86868b]',
+    },
+    // Creative & Lo-Fi
+    28: { // Sticker Book
+      container: 'bg-[#fdf6e3] text-slate-900 font-sans',
+      card: 'bg-white border-4 border-white rounded-2xl shadow-lg',
+      button: 'bg-pink-400 text-white rounded-full border-4 border-white shadow-md',
+      visual: 'bg-sky-200 border-4 border-white rounded-xl text-sky-600 shadow-md rotate-2',
+      text: 'text-slate-900',
+      subtext: 'text-slate-600',
+    },
+    38: { // Biomorphic Design
+      container: 'bg-[#f0fdf4] text-emerald-900 font-sans',
+      card: 'bg-gradient-to-br from-emerald-100 to-teal-100 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] shadow-xl',
+      button: 'bg-emerald-500 text-white rounded-full',
+      visual: 'bg-gradient-to-br from-teal-200 to-emerald-200 rounded-[40%_60%_70%_30%/40%_70%_30%_60%] text-emerald-500',
+      text: 'text-emerald-900',
+      subtext: 'text-teal-600',
+    },
+    41: { // Cyberpunk Interface
+      container: 'bg-[#0a0a0a] text-[#ff0080] font-mono',
+      card: 'bg-[#1a1a2e] border border-[#ff0080]/30 rounded-none [clip-path:polygon(0_0,calc(100%-15px)_0,100%_15px,100%_100%,15px_100%,0_calc(100%-15px))]',
+      button: 'bg-[#ff0080] text-black rounded-none font-bold uppercase',
+      visual: 'bg-[#0a0a1a] border border-[#00ffff]/30 rounded-none text-[#00ffff]',
+      text: 'text-[#ff0080] [text-shadow:0_0_10px_#ff0080]',
+      subtext: 'text-[#00ffff]',
+    },
+    46: { // 8-Bit / Pixelscape
+      container: 'bg-[#2a1f4e] text-[#f0e68c] font-mono',
+      card: 'bg-[#3c2f5c] border-4 border-[#f0e68c] rounded-none shadow-[4px_4px_0_#000]',
+      button: 'bg-[#ff6b6b] text-white border-4 border-[#000] rounded-none',
+      visual: 'bg-[#2a1f4e] border-4 border-[#7b68ee] rounded-none text-[#7b68ee]',
+      text: 'text-[#f0e68c]',
+      subtext: 'text-[#dda0dd]',
+    },
+    47: { // Gamified Cartoon
+      container: 'bg-gradient-to-br from-orange-400 to-pink-500 text-white font-bold',
+      card: 'bg-white border-4 border-black rounded-3xl shadow-[6px_6px_0_#000]',
+      button: 'bg-green-500 text-white border-4 border-black rounded-full shadow-[3px_3px_0_#000]',
+      visual: 'bg-yellow-300 border-4 border-black rounded-2xl text-black',
+      text: 'text-black',
+      subtext: 'text-slate-700',
+    },
+    48: { // Toy-Inspired 3D
+      container: 'bg-[#ffeb3b] text-slate-900 font-sans',
+      card: 'bg-[#ff5722] border-none rounded-3xl shadow-2xl',
+      button: 'bg-[#2196f3] text-white rounded-full shadow-lg',
+      visual: 'bg-[#4caf50] rounded-2xl text-white shadow-inner',
+      text: 'text-white',
+      subtext: 'text-white/80',
+    },
+    49: { // Storybook Digital
+      container: 'bg-[#fdf6e3] text-[#5c4033] font-serif',
+      card: 'bg-[#fffef5] border-2 border-[#d4c4a8] rounded-lg shadow-md',
+      button: 'bg-[#8b4513] text-[#fdf6e3] rounded-lg',
+      visual: 'bg-[#f5ecd7] border-2 border-dashed border-[#c4a574] rounded-lg text-[#8b7355]',
+      text: 'text-[#5c4033] font-serif',
+      subtext: 'text-[#8b7355]',
+    },
+    50: { // Kawaii Tech
+      container: 'bg-gradient-to-br from-pink-100 to-purple-100 text-purple-900 font-sans',
+      card: 'bg-white rounded-[40px] shadow-xl border-2 border-pink-200',
+      button: 'bg-gradient-to-r from-pink-400 to-purple-400 text-white rounded-full shadow-lg',
+      visual: 'bg-gradient-to-br from-pink-50 to-purple-50 rounded-3xl text-pink-400 border border-pink-200',
+      text: 'text-purple-900',
+      subtext: 'text-pink-500',
+    },
+    51: { // Doodle Universe
+      container: 'bg-[#fffef5] text-slate-800 font-serif',
+      card: 'bg-white border-2 border-slate-700 rounded-lg shadow-[3px_3px_0_#334155]',
+      button: 'bg-[#fde68a] text-slate-900 border-2 border-slate-700 rounded-lg',
+      visual: 'bg-[#e0f2fe] border-2 border-dashed border-slate-500 rounded-lg text-slate-500',
+      text: 'text-slate-800',
+      subtext: 'text-slate-600',
+    },
+    52: { // Paper Craft Digital
+      container: 'bg-[#f5f0e6] text-slate-900 font-sans',
+      card: 'bg-white rounded-lg shadow-[4px_4px_0_#d4d4d4]',
+      button: 'bg-rose-400 text-white rounded-lg shadow-[2px_2px_0_#9f1239]',
+      visual: 'bg-sky-100 rounded-lg text-sky-600 shadow-[3px_3px_0_#7dd3fc]',
+      text: 'text-slate-900',
+      subtext: 'text-slate-600',
+    },
+    53: { // Play-Doh Digital
+      container: 'bg-[#f0f4f8] text-slate-900 font-sans',
+      card: 'bg-gradient-to-br from-red-400 to-red-500 rounded-[40px] shadow-xl',
+      button: 'bg-yellow-400 text-slate-900 rounded-full shadow-lg',
+      visual: 'bg-gradient-to-br from-blue-400 to-blue-500 rounded-3xl text-white shadow-inner',
+      text: 'text-white',
+      subtext: 'text-white/80',
+    },
+    // Atmosphere & Culture
+    19: { // Gradient Mesh
+      container: 'bg-[#1a1a2e] text-white font-sans overflow-hidden',
+      card: 'bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl',
+      button: 'bg-white/20 hover:bg-white/30 border border-white/30 text-white rounded-xl',
+      visual: 'bg-gradient-to-br from-pink-500/40 via-purple-500/40 to-cyan-500/40 rounded-2xl text-white/60 blur-sm',
+      text: 'text-white',
+      subtext: 'text-white/70',
+    },
+    23: { // Ambient Design
+      container: 'bg-[#f5f0e8] text-[#5c5c5c] font-sans',
+      card: 'bg-white/60 backdrop-blur-sm rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]',
+      button: 'bg-[#e8e0d4] text-[#5c5c5c] rounded-xl hover:bg-[#ddd5c9]',
+      visual: 'bg-gradient-to-br from-[#f5ebe0] to-[#e8dfd4] rounded-2xl text-[#a89f94]',
+      text: 'text-[#3d3d3d]',
+      subtext: 'text-[#8c8c8c]',
+    },
+    25: { // Parallax Storytelling
+      container: 'bg-gradient-to-b from-sky-400 to-sky-600 text-white font-sans',
+      card: 'bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl',
+      button: 'bg-white text-sky-600 rounded-xl font-semibold',
+      visual: 'bg-white/10 border border-white/20 rounded-xl text-white/60',
+      text: 'text-white',
+      subtext: 'text-sky-100',
+    },
+    54: { // Scandinavian Digital
+      container: 'bg-[#fafaf9] text-[#1a1a1a] font-sans',
+      card: 'bg-white border-none rounded-lg shadow-sm',
+      button: 'bg-[#1a1a1a] text-white rounded-lg',
+      visual: 'bg-[#f5f5f4] rounded-lg text-[#a3a3a3] border-none',
+      text: 'text-[#1a1a1a]',
+      subtext: 'text-[#737373]',
+    },
+    55: { // Afrofuturism
+      container: 'bg-[#1a0a2e] text-amber-300 font-sans',
+      card: 'bg-[#2a1848] border border-amber-500/30 rounded-xl',
+      button: 'bg-gradient-to-r from-amber-500 to-orange-500 text-black rounded-lg font-bold',
+      visual: 'bg-[#1a0a2e] border border-amber-400/20 rounded-xl text-amber-400/50',
+      text: 'text-amber-300',
+      subtext: 'text-purple-300',
+    },
+    59: { // Eco-Brutalism
+      container: 'bg-[#d4d4d4] text-[#1a1a1a] font-mono',
+      card: 'bg-[#e5e5e5] border-2 border-[#1a1a1a] rounded-none',
+      button: 'bg-[#22c55e] text-black border-2 border-black rounded-none font-bold',
+      visual: 'bg-[#a3a3a3] border-2 border-[#1a1a1a] rounded-none text-[#404040]',
+      text: 'text-[#1a1a1a]',
+      subtext: 'text-[#22c55e]',
+    },
+    // Medical & Surgical
+    66: { // Precision Surgical UI
+      container: 'bg-white text-[#0e7490] font-mono',
+      card: 'bg-white border border-[#e0f2fe] rounded-lg shadow-sm',
+      button: 'bg-[#0891b2] text-white rounded-sm text-xs uppercase tracking-widest',
+      visual: 'bg-[#f0fdff] border border-[#bae6fd] rounded-sm text-[#0891b2]',
+      text: 'text-[#164e63]',
+      subtext: 'text-[#0891b2]',
+    },
+    67: { // Scientific Atlas Modern
+      container: 'bg-[#fffef5] text-[#1a1a1a] font-serif',
+      card: 'bg-white border border-[#e5e5e5] rounded-sm',
+      button: 'bg-[#1a1a1a] text-white rounded-sm text-xs',
+      visual: 'bg-[#fafaf9] border border-[#d4d4d4] rounded-sm text-[#737373]',
+      text: 'text-[#1a1a1a] font-serif',
+      subtext: 'text-[#525252]',
+    },
+    68: { // Surgical Blueprint
+      container: 'bg-[#1e3a5f] text-white font-mono',
+      card: 'bg-[#1e3a5f] border border-[#60a5fa]/30 rounded-none',
+      button: 'bg-transparent border border-white text-white rounded-none uppercase text-xs tracking-widest',
+      visual: 'bg-[#1e3a5f] border border-dashed border-[#60a5fa]/50 rounded-none text-[#60a5fa]/70',
+      text: 'text-white font-mono',
+      subtext: 'text-[#93c5fd]',
+    },
+    // NOVOS TEMAS ADICIONADOS
+    71: { // Material Design
+      container: 'bg-[#fafafa] text-[#212121] font-sans',
+      card: 'bg-white rounded shadow-[0_2px_4px_rgba(0,0,0,0.1),0_4px_8px_rgba(0,0,0,0.1)] transition-shadow duration-300 hover:shadow-[0_4px_8px_rgba(0,0,0,0.15),0_8px_16px_rgba(0,0,0,0.1)]',
+      button: 'bg-[#6200ee] text-white rounded shadow-[0_2px_4px_rgba(98,0,238,0.3)] hover:shadow-[0_4px_8px_rgba(98,0,238,0.4)] transition-all duration-300',
+      visual: 'bg-[#f5f5f5] rounded shadow-inner text-[#757575]',
+      text: 'text-[#212121]',
+      subtext: 'text-[#757575]',
+    },
+    72: { // Crayon Texture
+      container: 'bg-[#fffef0] text-[#3d3d3d] font-sans',
+      card: 'bg-[#fff8dc] border-4 border-[#ff6b6b] rounded-[20px_5px_15px_8px] shadow-lg',
+      button: 'bg-[#4ecdc4] text-white rounded-[8px_15px_5px_12px] border-2 border-[#3db8b0] font-bold',
+      visual: 'bg-[#ffe66d] rounded-[15px_8px_20px_5px] text-[#ff6b6b] border-2 border-[#ffcc00]',
+      text: 'text-[#2c3e50]',
+      subtext: 'text-[#7f8c8d]',
+    },
+    73: { // Wes Anderson
+      container: 'bg-[#f8e1d4] text-[#4a3728] font-serif',
+      card: 'bg-[#fdf6e3] border border-[#d4a574] rounded-sm shadow-md',
+      button: 'bg-[#e8c4a8] text-[#4a3728] border-2 border-[#4a3728] rounded-sm hover:bg-[#d4a574] uppercase tracking-widest text-xs',
+      visual: 'bg-[#a8d5ba] border-2 border-[#4a3728] rounded-sm text-[#4a3728]',
+      text: 'text-[#4a3728] font-serif text-center',
+      subtext: 'text-[#8b7355] text-center',
+    },
+    74: { // Marvel HUD
+      container: 'bg-[#0a0a1a] text-[#00d4ff] font-sans',
+      card: 'bg-[#0a1628]/80 border border-[#00d4ff]/40 rounded-none [clip-path:polygon(0_0,calc(100%-20px)_0,100%_20px,100%_100%,20px_100%,0_calc(100%-20px))] shadow-[0_0_30px_rgba(0,212,255,0.2)]',
+      button: 'bg-[#ffd700]/20 text-[#ffd700] border border-[#ffd700] rounded-none uppercase tracking-widest font-bold shadow-[0_0_15px_rgba(255,215,0,0.3)]',
+      visual: 'bg-[#00d4ff]/10 border border-[#00d4ff]/30 rounded-none text-[#00d4ff]/60',
+      text: 'text-[#00d4ff] uppercase tracking-wider drop-shadow-[0_0_10px_rgba(0,212,255,0.5)]',
+      subtext: 'text-[#ffd700]/80',
+    },
+    75: { // Matrix Code
+      container: 'bg-black text-[#00ff00] font-mono',
+      card: 'bg-black border border-[#00ff00]/30 rounded-none',
+      button: 'bg-[#00ff00] text-black rounded-none font-bold uppercase tracking-widest',
+      visual: 'bg-black border border-[#00ff00]/20 rounded-none text-[#00ff00]/70',
+      text: 'text-[#00ff00] font-mono [text-shadow:0_0_10px_#00ff00,0_0_20px_#00ff00]',
+      subtext: 'text-[#00ff00]/60',
+    },
+    76: { // Stranger Things 80s
+      container: 'bg-black text-[#ff0000] font-sans',
+      card: 'bg-[#1a0000] border border-[#ff0000]/30 rounded-none',
+      button: 'bg-[#ff0000] text-white rounded-none uppercase tracking-widest font-bold shadow-[0_0_20px_rgba(255,0,0,0.5)]',
+      visual: 'bg-black border border-[#ff0000]/20 rounded-none text-[#ff0000]/60',
+      text: 'text-[#ff0000] uppercase [text-shadow:0_0_10px_#ff0000,0_0_20px_#ff0000,0_0_30px_#ff0000]',
+      subtext: 'text-white/70',
+    },
+    77: { // Minecraft Block
+      container: 'bg-[#87ceeb] text-[#3d2817] font-mono',
+      card: 'bg-[#8b7355] border-4 border-[#5c4033] rounded-none shadow-[4px_4px_0_#3d2817]',
+      button: 'bg-[#4caf50] text-white border-4 border-[#2e7d32] rounded-none shadow-[3px_3px_0_#1b5e20] font-bold',
+      visual: 'bg-[#5c8a3d] border-4 border-[#3d5c28] rounded-none text-[#2e4a1c]',
+      text: 'text-[#ffffff] font-mono [text-shadow:2px_2px_0_#000]',
+      subtext: 'text-[#ffeb3b]',
+    },
+    78: { // Deconstructivism
+      container: 'bg-[#f0f0f0] text-[#1a1a1a] font-sans',
+      card: 'bg-white border-2 border-[#1a1a1a] rounded-none transform rotate-1 shadow-xl',
+      button: 'bg-[#ff3366] text-white rounded-none transform -rotate-2 hover:rotate-0 transition-transform',
+      visual: 'bg-[#1a1a1a] rounded-none text-white transform skew-x-3 -skew-y-1',
+      text: 'text-[#1a1a1a] transform -rotate-1',
+      subtext: 'text-[#666666]',
+    },
+    79: { // Parametric Design
+      container: 'bg-[#f8f9fa] text-[#2d3436] font-sans',
+      card: 'bg-gradient-to-br from-[#a8e6cf] to-[#dcedc1] rounded-[60px_20px_60px_20px] shadow-lg',
+      button: 'bg-gradient-to-r from-[#74b9ff] to-[#a29bfe] text-white rounded-full',
+      visual: 'bg-gradient-to-br from-[#ffeaa7] to-[#fab1a0] rounded-[40px_10px_40px_10px] text-[#d63031]',
+      text: 'text-[#2d3436]',
+      subtext: 'text-[#636e72]',
+    },
+    80: { // Phosphorescent Glow
+      container: 'bg-[#0a0a0a] text-[#39ff14] font-sans',
+      card: 'bg-[#1a1a1a] border border-[#39ff14]/30 rounded-2xl shadow-[0_0_30px_rgba(57,255,20,0.2)]',
+      button: 'bg-[#39ff14]/20 text-[#39ff14] border border-[#39ff14] rounded-xl shadow-[0_0_20px_rgba(57,255,20,0.4),inset_0_0_20px_rgba(57,255,20,0.1)]',
+      visual: 'bg-[#0a0a0a] border border-[#00ffff]/20 rounded-xl text-[#00ffff] shadow-[0_0_40px_rgba(0,255,255,0.2)]',
+      text: 'text-[#39ff14] drop-shadow-[0_0_15px_rgba(57,255,20,0.8)]',
+      subtext: 'text-[#ff00ff] drop-shadow-[0_0_10px_rgba(255,0,255,0.6)]',
+    },
+    81: { // Anti-Design
+      container: 'bg-[#ff00ff] text-[#00ff00] font-mono',
+      card: 'bg-[#ffff00] border-8 border-[#0000ff] rounded-none transform rotate-3 shadow-[10px_-10px_0_#ff0000]',
+      button: 'bg-[#00ffff] text-[#ff0000] border-4 border-[#000] rounded-none transform -rotate-5 font-bold uppercase',
+      visual: 'bg-[#ff6600] border-4 border-dashed border-[#00ff00] rounded-none text-[#0000ff] transform skew-x-6',
+      text: 'text-[#0000ff] transform rotate-2 font-bold',
+      subtext: 'text-[#ff0000] transform -rotate-3',
+    },
+    // ESTILOS PREMIUM ADICIONAIS
+    82: { // Brutalist Serif
+      container: 'bg-[#fafafa] text-[#1a1a1a] font-serif',
+      card: 'bg-white border-b border-[#1a1a1a] rounded-none',
+      button: 'bg-transparent text-[#1a1a1a] border border-[#1a1a1a] rounded-none hover:bg-[#1a1a1a] hover:text-white uppercase tracking-widest text-xs',
+      visual: 'bg-[#f5f5f5] border-none rounded-none text-[#2d5a3d]',
+      text: 'text-[#1a1a1a] font-serif tracking-tight',
+      subtext: 'text-[#2d5a3d]',
+    },
+    83: { // Lunarpunk
+      container: 'bg-[#0d1b2a] text-[#00ffff] font-sans',
+      card: 'bg-[#1b2838]/80 border border-[#00ffff]/20 rounded-2xl shadow-[0_0_40px_rgba(0,255,255,0.1),inset_0_0_20px_rgba(127,255,0,0.05)]',
+      button: 'bg-[#7fff00]/20 text-[#7fff00] border border-[#7fff00]/50 rounded-xl shadow-[0_0_20px_rgba(127,255,0,0.3)]',
+      visual: 'bg-[#0d1b2a] border border-[#8b5cf6]/30 rounded-xl text-[#8b5cf6] shadow-[inset_0_0_30px_rgba(139,92,246,0.2)]',
+      text: 'text-[#00ffff] drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]',
+      subtext: 'text-[#7fff00]/80',
+    },
+    84: { // Skeuomorphic Revival
+      container: 'bg-gradient-to-b from-[#4a4a4a] to-[#2a2a2a] text-[#e0e0e0] font-sans',
+      card: 'bg-gradient-to-b from-[#6a6a6a] to-[#4a4a4a] rounded-lg shadow-[0_1px_0_#888,0_-1px_0_#222,0_4px_8px_rgba(0,0,0,0.4)] border border-[#555]',
+      button: 'bg-gradient-to-b from-[#e8e8e8] to-[#c8c8c8] text-[#333] rounded-md shadow-[0_1px_0_#fff_inset,0_-1px_2px_rgba(0,0,0,0.3)] border border-[#999]',
+      visual: 'bg-gradient-to-b from-[#3a3a3a] to-[#2a2a2a] rounded-md text-[#888] shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)] border border-[#444]',
+      text: 'text-[#f0f0f0]',
+      subtext: 'text-[#aaa]',
+    },
+    85: { // Art Deco Modern
+      container: 'bg-[#0a1f1a] text-[#d4af37] font-sans',
+      card: 'bg-[#0f2f28] border border-[#d4af37]/30 rounded-none',
+      button: 'bg-transparent text-[#d4af37] border border-[#d4af37] rounded-none uppercase tracking-[0.3em] text-xs hover:bg-[#d4af37] hover:text-[#0a1f1a]',
+      visual: 'bg-[#0a1f1a] border border-[#d4af37]/20 rounded-none text-[#d4af37]/60',
+      text: 'text-[#d4af37] uppercase tracking-wider',
+      subtext: 'text-[#8b7355]',
+    },
+    86: { // AI-Fluid
+      container: 'bg-[#0a0a1a] text-white font-sans overflow-hidden',
+      card: 'bg-gradient-to-br from-[#667eea]/20 via-[#764ba2]/20 to-[#f093fb]/20 backdrop-blur-xl border border-white/10 rounded-3xl',
+      button: 'bg-white/10 hover:bg-white/20 border border-white/30 text-white rounded-xl backdrop-blur-sm',
+      visual: 'bg-gradient-to-br from-[#667eea]/30 via-[#764ba2]/30 to-[#f093fb]/30 rounded-[40%_60%_70%_30%/40%_50%_60%_50%] text-white/60 animate-pulse',
+      text: 'text-white',
+      subtext: 'text-white/70',
+    },
+    87: { // Liminal Space
+      container: 'bg-[#e8e4dc] text-[#5c5c5c] font-sans',
+      card: 'bg-[#f5f2eb] border-none rounded-sm shadow-sm',
+      button: 'bg-[#d4d0c8] text-[#4a4a4a] rounded-sm hover:bg-[#c8c4bc]',
+      visual: 'bg-[#dedad2] rounded-sm text-[#8a8a8a] border-none',
+      text: 'text-[#4a4a4a]',
+      subtext: 'text-[#8a8a8a]',
+    },
+    88: { // Ukiyo-e Modern
+      container: 'bg-[#f5f0e1] text-[#2c3e50] font-serif',
+      card: 'bg-[#fffef5] border-2 border-[#1a365d] rounded-none shadow-md',
+      button: 'bg-[#c0392b] text-[#f5f0e1] rounded-none border-2 border-[#1a365d] uppercase tracking-widest text-xs',
+      visual: 'bg-gradient-to-b from-[#1a365d] to-[#2c5282] rounded-none text-[#f5f0e1] border-2 border-[#1a365d]',
+      text: 'text-[#1a365d] font-serif',
+      subtext: 'text-[#c0392b]',
+    },
+  };
+
+  if (allThemes[id]) return allThemes[id];
+  return getCategoryFallback(category);
+};
+
+// Fallback por categoria
+const getCategoryFallback = (category: string): ThemeConfig => {
+  switch (category) {
+    case 't-clean':
+      return essentialTechThemes[1];
+    case 't-neon':
+      return essentialTechThemes[3];
+    case 't-glass':
+      return essentialTechThemes[4];
+    case 't-brutal':
+      return essentialTechThemes[7];
+    case 't-clay':
+      return tactileCorpThemes[12];
+    case 't-retro':
+      return {
+        container: 'bg-[#000080] text-[#c0c0c0] font-sans',
+        card: 'bg-[#c0c0c0] border-t-2 border-l-2 border-white border-b-2 border-r-2 border-black shadow-md',
+        button: 'bg-[#c0c0c0] text-black border-t-2 border-l-2 border-white border-b-2 border-r-2 border-black',
+        visual: 'bg-black border border-[#808080] text-green-500 font-mono',
+        text: 'text-black font-bold',
+        subtext: 'text-[#404040]',
+      };
+    case 't-medical':
+      return {
+        container: 'bg-[#f0fdff] text-[#0e7490] font-mono relative',
+        card: 'bg-white border border-[#22d3ee] shadow-sm',
+        button: 'bg-transparent border border-[#0891b2] text-[#0891b2] text-xs uppercase tracking-widest hover:bg-[#ecfeff]',
+        visual: 'bg-[#ecfeff] border border-dashed border-[#22d3ee] text-[#22d3ee]',
+        text: 'text-[#164e63]',
+        subtext: 'text-[#155e75]',
+      };
+    case 't-dark':
+      return {
+        container: 'bg-[#0a0a0a] text-zinc-300 font-sans',
+        card: 'bg-[#171717] border border-[#262626] rounded-md shadow-2xl',
+        button: 'bg-[#ededed] text-black rounded hover:bg-white font-medium',
+        visual: 'bg-[#121212] border border-[#262626] rounded text-zinc-600',
+        text: 'text-white',
+        subtext: 'text-zinc-500',
+      };
+    default:
+      return essentialTechThemes[1];
+  }
+};
